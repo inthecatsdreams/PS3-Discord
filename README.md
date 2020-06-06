@@ -2,6 +2,9 @@
 Adds Discord rich presence to your PS3 without relying on PSN.
 
 
+The script is interactive it basically asks for your console's local IP and that's it. 
+
+
 # Requirements
 
 - webMAN installed on your PS3
