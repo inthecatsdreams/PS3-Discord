@@ -11,8 +11,9 @@ Adds Discord rich presence to your PS3 without relying on PSN.
 
 - bs4
 - python3-requests
+- pypresence
 
 
 install them like so:
 
-`pip3 install bs4 requests --users`
+`pip3 install bs4 requests pypresence --users`
