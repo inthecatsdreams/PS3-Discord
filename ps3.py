@@ -54,7 +54,7 @@ def get_firmware(div):
     return formatted_fw
 
 
-print("Welcome to PS3 Rich presence by in the cat's dreams\n")
+print("Welcome to PS3 Rich presence by Yowai-dev\n")
 ps3_ip = input("Please enter your PS3 local IP address:")
 
 if connect_to_console(ps3_ip):
