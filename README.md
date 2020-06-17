@@ -20,3 +20,11 @@ The script is interactive it basically asks for your console's local IP and that
 install them like so:
 
 `pip3 install bs4 requests pypresence --user`
+
+
+
+**__To-do__**
+
+- add support for PSN games
+
+
