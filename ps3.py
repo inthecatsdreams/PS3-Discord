@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 from pypresence import Presence
 import time
+import sys
+import os
 
 def connect_to_console(console_ip):
     url = "http://{}/cpursx.ps3?/sman.ps3".format(console_ip)
@@ -53,6 +55,16 @@ def get_firmware(div):
     return formatted_fw
 
 
+def clean_buffer(user_os):
+    if user_os.startswith('freebsd') or user_os.startswith('linux') or user_os.startswith("darwin"):
+        os.system("clear")
+    elif user_os.startswith('win'):
+        os.system("cls")
+        
+    else:
+        return
+    
+
 print("Welcome to PS3 Rich presence by Yowai-dev\n")
 ps3_ip = input("Please enter your PS3 local IP address:")
 
@@ -70,7 +82,8 @@ if connect_to_console(ps3_ip):
         print("Playing {}".format(game))
         status = "🎮: {}".format(game)
         RPC.update(large_image="logo", large_text=status, small_image="logo", small_text=status, details="CFW: {}".format(fw), state= status)
-        time.sleep(10) 
+        time.sleep(10)
+        clean_buffer(sys.platform) 
 
 else:
     print("Something went wrong, aborting...")
