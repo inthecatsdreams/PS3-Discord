@@ -25,16 +25,15 @@ def get_game(console_ip):
     url = "http://{}/cpursx.ps3?/sman.ps3".format(console_ip)
     html = requests.get(url).text
     soup = BeautifulSoup(html, 'html.parser')
-    strings = soup.findAll('font', attrs={'size': 3})
-    if strings == None:
-        game = "Nothing"
-        return game
+    strings = soup.findAll('h2')
+    res = strings[0].text
+    game = None
+    if res.startswith("BL") or res.startswith("NP"):
+        game = res
     else:
-        try:
-            game = strings[-1].text
-        except IndexError:
-            game = "Nothing"
-    
+        game = "XMB"
+
+
     return game
     
 
@@ -59,7 +58,6 @@ ps3_ip = input("Please enter your PS3 local IP address:")
 
 if connect_to_console(ps3_ip):
     print("Connection established with your console.")
-    print(get_game(ps3_ip))
     client_id = '718828414525505588'  
     RPC = Presence(client_id)
     RPC.connect()
@@ -69,9 +67,10 @@ if connect_to_console(ps3_ip):
         temps = get_temps(ps3_info[0])
         fw = get_firmware(ps3_info[4])
         game = get_game(ps3_ip)
+        print("Playing {}".format(game))
         status = "🎮: {}".format(game)
         RPC.update(large_image="logo", large_text=status, small_image="logo", small_text=status, details="CFW: {}".format(fw), state= status)
-        time.sleep(15) 
+        time.sleep(10) 
 
 else:
     print("Something went wrong, aborting...")
