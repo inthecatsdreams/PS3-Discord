@@ -31,7 +31,7 @@ def get_game(console_ip):
     res = strings[0].text
     game = None
     if res.startswith("BL") or res.startswith("NP"):
-        game = res
+        game = res.split(' ', 1)[1]
     else:
         game = "XMB"
 
@@ -64,9 +64,18 @@ def clean_buffer(user_os):
     else:
         return
     
+if not os.path.exists("ip.txt"):
+    ps3_ip_file = open("ip.txt",'w+')
+    ps3_ip = input("Please enter your PS3 local IP address:")
+    ps3_ip_file.write(f"{ps3_ip}")
+    ps3_ip_file.close()
+else:
+    ps3_ip_file = open("ip.txt",'r+')
+    ps3_ip = ps3_ip_file.read()
+    ps3_ip_file.close()
 
 print("Welcome to PS3 Rich presence by Yowai-dev\n")
-ps3_ip = input("Please enter your PS3 local IP address:")
+
 
 if connect_to_console(ps3_ip):
     print("Connection established with your console.")
@@ -81,7 +90,7 @@ if connect_to_console(ps3_ip):
         game = get_game(ps3_ip)
         print("Playing {}".format(game))
         status = "🎮: {}".format(game)
-        RPC.update(large_image="logo", large_text=status, small_image="logo", small_text=status, details="CFW: {}".format(fw), state= status)
+        RPC.update(large_image="logo", large_text=status, small_text=status, details=fw, state=status)
         time.sleep(10)
         clean_buffer(sys.platform) 
 
