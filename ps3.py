@@ -86,7 +86,7 @@ if connect_to_console(ps3_ip):
     while True:  
         ps3_info = get_console_info(ps3_ip)
         temps = get_temps(ps3_info[0])
-        fw = get_firmware(ps3_info[4])
+        fw = get_firmware(ps3_info[4]).split(': ', 1)[1]
         game = get_game(ps3_ip)
         print("Playing {}".format(game))
         status = "🎮: {}".format(game)
