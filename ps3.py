@@ -30,7 +30,7 @@ def get_game(console_ip):
     strings = soup.findAll('h2')
     res = strings[0].text
     game = None
-    if res.startswith("BL") or res.startswith("NP"):
+    if res.startswith("BL") or res.startswith("NP") or res.startswith("BC"):
         game = res.split(' ', 1)[1]
     else:
         game = "XMB"
