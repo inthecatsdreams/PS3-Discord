@@ -26,12 +26,12 @@ def get_console_info(console_ip):
 def get_game(console_ip):
     url = "http://{}/cpursx.ps3?/sman.ps3".format(console_ip)
     html = requests.get(url).text
-    soup = BeautifulSoup(html, 'html.parser')
+    soup = BeautifulSoup(html, "html.parser")
     strings = soup.findAll('h2')
     res = strings[0].text
     game = None
     if res.startswith("BL") or res.startswith("NP") or res.startswith("BC"):
-        game = res.split(' ', 1)[1]
+        game = res.split(' ', 1)[1].encode("ascii","ignore").decode()
     else:
         game = "XMB"
 
@@ -82,15 +82,22 @@ if connect_to_console(ps3_ip):
     client_id = '718828414525505588'  
     RPC = Presence(client_id)
     RPC.connect()
-
+    fw_temp_cycle = False
+    
     while True:  
         ps3_info = get_console_info(ps3_ip)
-        temps = get_temps(ps3_info[0])
-        fw = get_firmware(ps3_info[4]).split(': ', 1)[1]
+        
+        if(fw_temp_cycle):
+            fw_temp = get_temps(ps3_info[0]).replace("[Fan control: Disabled]", '')
+            fw_temp_cycle = False
+        else:
+            fw_temp = get_firmware(ps3_info[4]).split(': ', 1)[1]
+            fw_temp_cycle = True
+        
         game = get_game(ps3_ip)
-        print("Playing {}".format(game))
-        status = "🎮: {}".format(game)
-        RPC.update(large_image="logo", large_text=status, small_text=status, details=fw, state=status)
+        print(f"Playing {game}")
+        status = f"🎮: {game}"
+        RPC.update(large_image="logo", large_text=status, small_text=status, details=fw_temp, state=status)
         time.sleep(10)
         clean_buffer(sys.platform) 
 
