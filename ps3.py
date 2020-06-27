@@ -4,6 +4,7 @@ from pypresence import Presence
 import time
 import sys
 import os
+import json
 
 def connect_to_console(console_ip):
     url = "http://{}/cpursx.ps3?/sman.ps3".format(console_ip)
@@ -18,7 +19,7 @@ def connect_to_console(console_ip):
 
 def get_console_info(console_ip):
     url = "http://{}/cpursx.ps3?/sman.ps3".format(console_ip)
-    html = requests.get(url).text
+    html = requests.get(url).text.encode("utf-8")
     soup = BeautifulSoup(html, 'html.parser')
     strings = soup.findAll('a', attrs={'class': 's'})
     return strings
@@ -63,16 +64,26 @@ def clean_buffer(user_os):
         
     else:
         return
+
+
+
+
+
+ps3_ip = None
+fw_temp_cycle = False
+
+with open("config.json", "r") as config_file:
+    data = json.load(config_file)
+    if data["cycle-temps"] == 0:
+        fw_temp_cycle = False
+    else:
+        fw_temp_cycle = True
     
-if not os.path.exists("ip.txt"):
-    ps3_ip_file = open("ip.txt",'w+')
-    ps3_ip = input("Please enter your PS3 local IP address:")
-    ps3_ip_file.write(f"{ps3_ip}")
-    ps3_ip_file.close()
-else:
-    ps3_ip_file = open("ip.txt",'r+')
-    ps3_ip = ps3_ip_file.read()
-    ps3_ip_file.close()
+    if data["ps3-ip"] == "" or data["ps3-ip"] == None:
+        print("Please add your PS3 ip to config.json and then restart the script.")
+        exit(-1)
+    else:
+        ps3_ip = data["ps3-ip"]
 
 print("Welcome to PS3 Rich presence by Yowai-dev\n")
 
@@ -82,7 +93,7 @@ if connect_to_console(ps3_ip):
     client_id = '718828414525505588'  
     RPC = Presence(client_id)
     RPC.connect()
-    fw_temp_cycle = False
+    
     
     while True:  
         ps3_info = get_console_info(ps3_ip)
