@@ -5,7 +5,7 @@ Adds Discord rich presence to your PS3 without relying on PSN.
 Add your PS3 local IP to __config.json__ and run the script! 
 
 
-@FMudanyali added a feature that allows you to switch between temps and the current game you’re playing (0 means it won’t show your temps, 1 means it will show them).
+@FMudanyali added a feature that allows you to switch between temps and the firmware of your console (0 means it won’t show your temps, 1 means it will show them).
 
 
 # Requirements
