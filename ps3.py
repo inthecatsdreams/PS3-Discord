@@ -5,16 +5,17 @@ import time
 import sys
 import os
 import json
+import re
 
 def connect_to_console(console_ip):
     url = "http://{}/cpursx.ps3?/sman.ps3".format(console_ip)
-    connected = False
+    is_connected = False
     try:
         html = requests.get(url).text
-        connected = True
-        return connected
-    except TimeoutError:
-        return connected
+        is_connected = True
+        return is_connected
+    except ConnectionError:
+        return is_connected
 
 
 def get_console_info(console_ip):
@@ -46,9 +47,9 @@ def get_temps(div):
     return temps
 
 def get_firmware(div):
-    crap = div.text
+    clutter = div.text
     formatted_fw = ""
-    for l in crap:
+    for l in clutter:
         if l != "P":
             formatted_fw += l
         else:
@@ -65,10 +66,6 @@ def clean_buffer(user_os):
     else:
         return
 
-
-
-
-
 ps3_ip = None
 fw_temp_cycle = False
 
@@ -83,8 +80,9 @@ with open("config.json", "r") as config_file:
         print("Please add your PS3 ip to config.json and then restart the script.")
         exit(-1)
     else:
-        ps3_ip = data["ps3-ip"]
 
+        ps3_ip = data["ps3-ip"]
+        
 print("Welcome to PS3 Rich presence by Yowai-dev\n")
 
 
@@ -106,12 +104,11 @@ if connect_to_console(ps3_ip):
             fw_temp_cycle = True
         
         game = get_game(ps3_ip)
-        print(f"Playing {game}")
         status = f"🎮: {game}"
         RPC.update(large_image="logo", large_text=status, small_text=status, details=fw_temp, state=status)
         time.sleep(10)
         clean_buffer(sys.platform) 
 
 else:
-    print("Something went wrong, aborting...")
+    print("Couldn't establish a connection, exiting...")
     exit()

@@ -20,6 +20,6 @@ Add your PS3 local IP to __config.json__ and run the script!
 - pypresence
 
 
-install them like so:
+install them like so (May vary depending on your OS):
 
 `pip3 install bs4 requests pypresence --user`
