@@ -8,7 +8,7 @@ import json
 import re
 
 def connect_to_console(console_ip):
-    url = "http://{}/cpursx.ps3?/sman.ps3".format(console_ip)
+    url = f"http://{console_ip}/cpursx.ps3?/sman.ps3"
     is_connected = False
     try:
         html = requests.get(url).text
@@ -19,14 +19,14 @@ def connect_to_console(console_ip):
 
 
 def get_console_info(console_ip):
-    url = "http://{}/cpursx.ps3?/sman.ps3".format(console_ip)
+    url = f"http://{console_ip}/cpursx.ps3?/sman.ps3"
     html = requests.get(url).text.encode("utf-8")
     soup = BeautifulSoup(html, 'html.parser')
     strings = soup.findAll('a', attrs={'class': 's'})
     return strings
 
 def get_game(console_ip):
-    url = "http://{}/cpursx.ps3?/sman.ps3".format(console_ip)
+    url = f"http://{console_ip}/cpursx.ps3?/sman.ps3"
     html = requests.get(url).text
     soup = BeautifulSoup(html, "html.parser")
     strings = soup.findAll('h2')
@@ -106,8 +106,9 @@ if connect_to_console(ps3_ip):
         game = get_game(ps3_ip)
         status = f"🎮: {game}"
         RPC.update(large_image="logo", large_text=status, small_text=status, details=fw_temp, state=status)
+        clean_buffer(sys.platform)
+        print(f"Status updated") 
         time.sleep(10)
-        clean_buffer(sys.platform) 
 
 else:
     print("Couldn't establish a connection, exiting...")
