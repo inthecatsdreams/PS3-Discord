@@ -34,6 +34,9 @@ def get_game(console_ip):
     game = None
     if res.startswith("BL") or res.startswith("NP") or res.startswith("BC"):
         game = res.split(' ', 1)[1].encode("ascii","ignore").decode()
+        del game[-1]
+        game = ' '.join(game)
+
     else:
         game = "XMB"
 
@@ -105,9 +108,7 @@ if connect_to_console(ps3_ip):
         
         
         game = get_game(ps3_ip)
-        game = game.split(" ")
-        del game[-1]
-        game = ' '.join(game)
+        
 
 
 
