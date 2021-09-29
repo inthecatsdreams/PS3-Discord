@@ -83,7 +83,7 @@ with open("config.json", "r") as config_file:
 
         ps3_ip = data["ps3-ip"]
         
-print("Welcome to PS3 Rich presence by Yowai-dev\n")
+print("Welcome to PS3 Rich presence by inthecatsdreams\n")
 
 
 if connect_to_console(ps3_ip):
@@ -107,7 +107,8 @@ if connect_to_console(ps3_ip):
         status = f"🎮: {game}"
         RPC.update(large_image="logo", large_text=status, small_text=status, details=fw_temp, state=status)
         clean_buffer(sys.platform)
-        print(f"Status updated") 
+        print(f"Status updated with {game}") 
+
         time.sleep(10)
 
 else:
