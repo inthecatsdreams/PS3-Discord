@@ -103,7 +103,14 @@ if connect_to_console(ps3_ip):
             fw_temp = get_firmware(ps3_info[4]).split(': ', 1)[1]
             fw_temp_cycle = True
         
+        
         game = get_game(ps3_ip)
+        game = game.split(" ")
+        del game[-1]
+        game = ' '.join(game)
+
+
+
         status = f"🎮: {game}"
         RPC.update(large_image="logo", large_text=status, small_text=status, details=fw_temp, state=status)
         clean_buffer(sys.platform)
