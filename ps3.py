@@ -34,6 +34,7 @@ def get_game(console_ip):
     game = None
     if res.startswith("BL") or res.startswith("NP") or res.startswith("BC"):
         game = res.split(' ', 1)[1].encode("ascii","ignore").decode()
+        game = game.split(' ')
         del game[-1]
         game = ' '.join(game)
 
