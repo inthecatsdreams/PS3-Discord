@@ -92,7 +92,7 @@ print("Welcome to PS3 Rich presence by inthecatsdreams\n")
 
 if connect_to_console(ps3_ip):
     print("Connection established with your console.")
-    client_id = '718828414525505588'  
+    client_id = '1034316970687987804'  
     RPC = Presence(client_id)
     RPC.connect()
     
